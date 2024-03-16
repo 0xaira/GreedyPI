@@ -1,9 +1,9 @@
+import { UserButton } from '@clerk/nextjs'
+
 export default function Home () {
   return (
-      <main className="">
-        <div className="">
-           <p>Greedy PI</p>
-        </div>
-      </main>
+    <div className="h-screen">
+      <UserButton />
+    </div>
   )
 }
