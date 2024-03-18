@@ -3,13 +3,6 @@
 @tailwind utilities;
 
 @layer utilities {
-    .bg-light-850 {
-        background-color: #f5f5f5; /* Example color */
-      }
-      .bg-dark-100 {
-        background-color: black; /* Example color */
-      }
-
   .background-light850_dark100 {
     @apply bg-light-850 dark:bg-dark-100;
   }
