@@ -1,5 +1,6 @@
 import HomeFilters from '@/components/home/HomeFilters'
 import Filter from '@/components/shared/Filter'
+import NoResults from '@/components/shared/NoResults'
 import LocalSearchbar from '@/components/shared/search/LocalSearchbar'
 import { Button } from '@/components/ui/button'
 import { HomePageFilters } from '@/constants/filters'
@@ -31,6 +32,14 @@ export default function Home () {
         />
       </div>
       <HomeFilters />
+      <NoResults
+            title=" There’s no question to show"
+            description="Be the first to break the silence! 🚀 Ask a Question and kickstart the
+          discussion. our query could be the next big thing others learn from. Get
+          involved! 💡"
+            link="/ask-question"
+            linkText="Ask a Question"
+          />
     </>
   )
 }
