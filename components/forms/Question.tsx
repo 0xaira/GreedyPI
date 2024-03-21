@@ -1,5 +1,5 @@
 'use client'
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { Editor } from '@tinymce/tinymce-react'
 import { QuestionSchema } from '@/lib/validations'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -19,9 +19,10 @@ import { Input } from '@/components/ui/input'
 import { Badge } from '../ui/badge'
 import Image from 'next/image'
 
+const type: any = 'create'
 const Question = () => {
-  // 1. Define your form.
   const editorRef = useRef(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const form = useForm<z.infer<typeof QuestionSchema>>({
     resolver: zodResolver(QuestionSchema),
     defaultValues: {
@@ -31,13 +32,20 @@ const Question = () => {
     }
   })
 
-  // 2. Define a submit handler.
   function onSubmit (values: z.infer<typeof QuestionSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+    setIsSubmitting(true)
+    try {
+    // make an async call to API -> create a question
+    // contain all form of data
+    // naviagte to home page
+    } catch (error) {
+
+    } finally {
+      setIsSubmitting(false)
+    }
     console.log(values)
   }
-  // Handle KeyDown for tags
+
   const handleInputKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
     field: any
@@ -47,9 +55,7 @@ const Question = () => {
       const tagInput = e.target as HTMLInputElement
       const tagValue = tagInput.value.trim()
 
-      // Check if the tags are not empty
       if (tagValue !== '') {
-        // Check for tags greater than 15 characters
         if (tagValue.length > 15) {
           return form.setError('tags', {
             type: 'required',
@@ -57,7 +63,6 @@ const Question = () => {
           })
         }
 
-        // If the tag doesnot exists, then add it to the tags array
         if (!field.value.includes(tagValue as never)) {
           form.setValue('tags', [...field.value, tagValue])
           tagInput.value = ''
@@ -69,7 +74,6 @@ const Question = () => {
     }
   }
 
-  // Handle tag remove
   const handleTagRemove = (tag: string, field: any) => {
     const newTags = field.value.filter((t: string) => t !== tag)
     form.setValue('tags', newTags)
@@ -211,7 +215,19 @@ const Question = () => {
             </FormItem>
           )}
           />
-          <Button type="submit">Submit</Button>
+          <Button
+          type="submit"
+          disabled={isSubmitting}
+          className="primary-gradient w-fit !text-light-900"
+        >
+          {isSubmitting
+            ? (
+            <>{type === 'edit' ? 'Editing' : 'Posting...'}</>
+              )
+            : (
+            <>{type === 'edit' ? 'Edit' : 'Ask a Question'}</>
+              )}
+        </Button>
         </form>
       </Form>
     </>
