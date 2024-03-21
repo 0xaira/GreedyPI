@@ -16,6 +16,8 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Badge } from '../ui/badge'
+import Image from 'next/image'
 
 const Question = () => {
   // 1. Define your form.
@@ -24,7 +26,7 @@ const Question = () => {
     resolver: zodResolver(QuestionSchema),
     defaultValues: {
       title: '',
-      explaination: '',
+      explanation: '',
       tags: []
     }
   })
@@ -34,6 +36,43 @@ const Question = () => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values)
+  }
+  // Handle KeyDown for tags
+  const handleInputKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    field: any
+  ) => {
+    if (e.key === 'Enter' && field.name === 'tags') {
+      e.preventDefault()
+      const tagInput = e.target as HTMLInputElement
+      const tagValue = tagInput.value.trim()
+
+      // Check if the tags are not empty
+      if (tagValue !== '') {
+        // Check for tags greater than 15 characters
+        if (tagValue.length > 15) {
+          return form.setError('tags', {
+            type: 'required',
+            message: 'Tag length should be less than 15 characters'
+          })
+        }
+
+        // If the tag doesnot exists, then add it to the tags array
+        if (!field.value.includes(tagValue as never)) {
+          form.setValue('tags', [...field.value, tagValue])
+          tagInput.value = ''
+          form.clearErrors('tags')
+        }
+      } else {
+        form.trigger()
+      }
+    }
+  }
+
+  // Handle tag remove
+  const handleTagRemove = (tag: string, field: any) => {
+    const newTags = field.value.filter((t: string) => t !== tag)
+    form.setValue('tags', newTags)
   }
   return (
     <>
@@ -123,28 +162,54 @@ const Question = () => {
             </FormItem>
           )}
         />
-          <FormField
-            control={form.control}
-            name="title"
-            render={({ field }) => (
-              <FormItem className=" flex w-full flex-col">
-                <FormLabel className="paragraph-semibold text-dark400_light800 ">
-                  Tags
-                  <span className="ml-1 text-primary-500">*</span>
-                </FormLabel>
-                <FormControl>
+         <FormField
+          control={form.control}
+          name="tags"
+          render={({ field }) => (
+            <FormItem className=" flex w-full flex-col">
+              <FormLabel className="paragraph-semibold text-dark400_light800 ">
+                Tags
+                <span className="ml-1 text-primary-500">*</span>
+              </FormLabel>
+              <FormControl>
+                <>
                   <Input
-                    {...field}
+                    placeholder="Add tags..."
                     className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border "
+                    onKeyDown={(e) => {
+                      handleInputKeyDown(e, field)
+                    }}
                   />
-                </FormControl>
-                <FormDescription className="body-regular mt-2.5 text-light-500">
-                  Add upto 3 tags to describe what your question is about. You
-                  need to press enter to add a tag.
-                </FormDescription>
-                <FormMessage className="text-red-500" />
-              </FormItem>
-            )}
+                  {/* RENDER THE TAGS ENTERED */}
+                  {field.value.length > 0 && (
+                    <div className="flex-start mt-2.5 gap-2.5">
+                      {field.value.map((tag: any) => (
+                        <Badge
+                          key={tag}
+                          className="subtle-medium background-light800_dark300 text-light400_light500 flex items-center gap-2 rounded-md border-none px-4 py-2 capitalize"
+                          onClick={() => handleTagRemove(tag, field)}
+                        >
+                          {tag}
+                          <Image
+                            src="/assets/icons/close.svg"
+                            width={12}
+                            height={12}
+                            alt="close icon"
+                            className="cursor-pointer object-contain invert-0 dark:invert"
+                          />
+                        </Badge>
+                      ))}
+                    </div>
+                  )}
+                </>
+              </FormControl>
+              <FormDescription className="body-regular mt-2.5 text-light-500">
+                Add upto 3 tags to describe what your question is about. You
+                need to enter to add a tag.
+              </FormDescription>
+              <FormMessage className="text-red-500" />
+            </FormItem>
+          )}
           />
           <Button type="submit">Submit</Button>
         </form>
