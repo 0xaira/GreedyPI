@@ -1,5 +1,6 @@
 'use client'
 import React, { useRef, useState } from 'react'
+import { createQuestions } from '@/lib/actions/question.action'
 import { Editor } from '@tinymce/tinymce-react'
 import { QuestionSchema } from '@/lib/validations'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -32,12 +33,13 @@ const Question = () => {
     }
   })
 
-  function onSubmit (values: z.infer<typeof QuestionSchema>) {
+  async function onSubmit (values: z.infer<typeof QuestionSchema>) {
     setIsSubmitting(true)
     try {
     // make an async call to API -> create a question
     // contain all form of data
     // naviagte to home page
+      await createQuestions({})
     } catch (error) {
 
     } finally {
@@ -121,6 +123,10 @@ const Question = () => {
                   onInit={(evt, editor) => {
                     // @ts-ignore
                     editorRef.current = editor
+                  }}
+                  onBlur={field.onBlur}
+                  onEditorChange={(content) => {
+                    field.onChange(content)
                   }}
                   initialValue=""
                   init={{
