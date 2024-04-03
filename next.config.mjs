@@ -4,7 +4,6 @@ const nextConfig = {
     formats: ['image/avif', 'image/webp']
   },
   experimental: {
-    serverActions: true,
     mdxRs: true,
     serverComponentsExternalPackages: ['mongoose']
   }
