@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Button } from '@/components/ui/button'
+import { useRouter } from 'next/navigation'
 import {
   Form,
   FormControl,
@@ -19,11 +20,15 @@ import {
 import { Input } from '@/components/ui/input'
 import { Badge } from '../ui/badge'
 import Image from 'next/image'
-
+interface Props {
+  mongoUserId: string;
+}
 const type: any = 'create'
-const Question = () => {
+const Question = ({ mongoUserId }: Props) => {
   const editorRef = useRef(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const router = useRouter()
+  // const path = usePathname()
   const form = useForm<z.infer<typeof QuestionSchema>>({
     resolver: zodResolver(QuestionSchema),
     defaultValues: {
@@ -36,10 +41,14 @@ const Question = () => {
   async function onSubmit (values: z.infer<typeof QuestionSchema>) {
     setIsSubmitting(true)
     try {
-    // make an async call to API -> create a question
-    // contain all form of data
-    // naviagte to home page
-      await createQuestions({})
+      await createQuestions({
+        title: values.title,
+        content: values.explanation,
+        tags: values.tags
+        // author: JSON.parse(mongoUserId)
+      })
+      // navigate to home
+      router.push('/')
     } catch (error) {
 
     } finally {
