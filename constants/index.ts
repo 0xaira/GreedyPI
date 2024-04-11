@@ -1,9 +1,11 @@
 import { SidebarLink } from '@/types'
+
 export const themes = [
   { value: 'light', label: 'Light', icon: '/assets/icons/sun.svg' },
   { value: 'dark', label: 'Dark', icon: '/assets/icons/moon.svg' },
   { value: 'system', label: 'System', icon: '/assets/icons/computer.svg' }
 ]
+
 export const sidebarLinks: SidebarLink[] = [
   {
     imgURL: '/assets/icons/home.svg',
@@ -41,6 +43,7 @@ export const sidebarLinks: SidebarLink[] = [
     label: 'Ask a question'
   }
 ]
+
 export const BADGE_CRITERIA = {
   QUESTION_COUNT: {
     BRONZE: 10,
@@ -68,3 +71,22 @@ export const BADGE_CRITERIA = {
     GOLD: 100000
   }
 }
+
+export const questions = [
+  'Would it be appropriate to point out an error in another paper during a referee report?',
+  'How can an airconditioning machine exist?',
+  'Interrogated every time crossing UK Border as citizen',
+  'Low digit addition generator',
+  'What is an example of 3 numbers that do not make up a vector?'
+]
+
+export const tags = [
+  'javascript',
+  'react',
+  'typescript',
+  'vue',
+  'angular',
+  'nodejs',
+  'express',
+  'mongodb'
+]

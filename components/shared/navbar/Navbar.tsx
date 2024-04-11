@@ -14,13 +14,13 @@ const Navbar = () => {
           src="/assets/images/site-logo.svg"
           width={23}
           height={23}
-          alt="GreedyPI"
+          alt="DevFlow"
         />
 
         <p className="h2-bold font-spaceGrotesk text-dark-100 dark:text-light-900 max-sm:hidden">Greedy <span className="text-primary-500">PI</span></p>
       </Link>
 
-      <GlobalSearch/>
+      <GlobalSearch />
 
       <div className="flex-between gap-5">
         <Theme />
