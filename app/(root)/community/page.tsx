@@ -5,7 +5,6 @@ import { UserFilters } from '@/constants/filters'
 import { getAllUsers } from '@/lib/actions/user.action'
 import Link from 'next/link'
 import React from 'react'
-
 const Community = async () => {
   const results = await getAllUsers({})
   return (
