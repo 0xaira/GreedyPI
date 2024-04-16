@@ -1,4 +1,6 @@
-import React from 'react'
+'use client'
+import Prism from 'prismjs'
+import parse from 'html-react-parser'
 import 'prismjs/components/prism-python'
 import 'prismjs/components/prism-java'
 import 'prismjs/components/prism-c'
@@ -21,11 +23,17 @@ import 'prismjs/components/prism-sql'
 import 'prismjs/components/prism-mongodb'
 import 'prismjs/plugins/line-numbers/prism-line-numbers.js'
 import 'prismjs/plugins/line-numbers/prism-line-numbers.css'
+import { useEffect } from 'react'
 
-const ParseHTML = () => {
-  return (
-    <div>ParseHTML</div>
-  )
+interface Props {
+  data: string;
+}
+
+const ParseHTML = ({ data }: Props) => {
+  useEffect(() => {
+    Prism.highlightAll()
+  }, [])
+  return <div>{parse(data)}</div>
 }
 
 export default ParseHTML
