@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { useRouter, usePathname } from 'next/navigation'
+import { useTheme } from '@/context/ThemeProvider'
 
 import {
   Form,
@@ -33,6 +34,7 @@ const Question = ({ mongoUserId }: Props) => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
   const path = usePathname()
+  const { mode } = useTheme()
 
   const form = useForm<z.infer<typeof QuestionsSchema>>({
     resolver: zodResolver(QuestionsSchema),
@@ -187,7 +189,9 @@ const Question = ({ mongoUserId }: Props) => {
                       'codesample | bold italic backcolor | alignleft aligncenter ' +
                       'alignright alignjustify | bullist numlist | ' +
                       'removeformat | help',
-                    content_style: 'body { font-family:Inter; font-size:16px }'
+                    content_style: 'body { font-family:Inter; font-size:16px }',
+                    skin: mode === 'dark' ? 'oxide-dark' : 'oxide',
+                    content_css: mode === 'dark' ? 'dark' : 'light'
                   }}
                 />
               </FormControl>
