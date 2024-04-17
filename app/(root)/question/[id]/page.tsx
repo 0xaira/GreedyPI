@@ -9,6 +9,7 @@ import RenderTag from '@/components/shared/RenderTag'
 import Answer from '@/components/forms/Answer'
 import { auth } from '@clerk/nextjs'
 import { getUserById } from '@/lib/actions/user.action'
+import AllAnswers from '@/components/shared/AllAnswers'
 const Page = async ({ params, searchParams }) => {
   const { userId: clerkId } = auth()
   let mongoUser
@@ -76,6 +77,11 @@ const Page = async ({ params, searchParams }) => {
           />
         ))}
       </div>
+      <AllAnswers
+        questionId={result._id}
+        userId={JSON.stringify(mongoUser._id)}
+        totalAnswers={result.answers.length}
+      />
       <Answer
         authorId={JSON.stringify(mongoUser._id)}
         question={result.content}
