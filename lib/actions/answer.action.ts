@@ -7,7 +7,7 @@ import Question from '@/database/question.model'
 
 export async function createAnswer (params: CreateAnswerParams) {
   try {
-    connectToDatabase()
+    await connectToDatabase()
 
     const { content, author, question, path } = params
     const newAnswer = await Answer.create({
@@ -31,7 +31,7 @@ export async function createAnswer (params: CreateAnswerParams) {
 
 export async function getAnswers (params: GetAnswersParams) {
   try {
-    connectToDatabase()
+    await connectToDatabase()
     const { questionId } = params
 
     const answers = await Answer.find({ question: questionId })

@@ -11,7 +11,7 @@ import { revalidatePath } from 'next/cache'
 export async function getQuestions (params: GetQuestionsParams) {
   try {
     // Connect to DB
-    connectToDatabase()
+    await connectToDatabase()
     const questions = await Question.find({})
       .populate({
         path: 'tags',
@@ -31,7 +31,7 @@ export async function getQuestions (params: GetQuestionsParams) {
 export async function createQuestions (params: CreateQuestionParams) {
   try {
     // connect to DB
-    connectToDatabase()
+    await connectToDatabase()
 
     const { title, content, tags, author, path } = params
 
@@ -71,7 +71,7 @@ export async function createQuestions (params: CreateQuestionParams) {
 
 export async function getQuestionByID (params: GetQuestionByIdParams) {
   try {
-    connectToDatabase()
+    await connectToDatabase()
 
     const { questionId } = params
 
@@ -97,7 +97,7 @@ export async function getQuestionByID (params: GetQuestionByIdParams) {
 
 export async function upvoteQuestion (params: QuestionVoteParams) {
   try {
-    connectToDatabase()
+    await connectToDatabase()
     const { questionId, userId, hasupVoted, hasdownVoted, path } = params
 
     let updateQuery = {}
@@ -130,7 +130,7 @@ export async function upvoteQuestion (params: QuestionVoteParams) {
 
 export async function downvoteQuestion (params: QuestionVoteParams) {
   try {
-    connectToDatabase()
+    await connectToDatabase()
 
     const { userId, questionId, hasdownVoted, hasupVoted, path } = params
 

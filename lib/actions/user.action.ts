@@ -10,7 +10,7 @@ import Tag from '@/database/tag.model'
 
 export async function getUserById (params: any) {
   try {
-    connectToDatabase()
+    await connectToDatabase()
     const { userId } = params
     const user = await User.findOne({ clerkId: userId })
 
@@ -22,7 +22,7 @@ export async function getUserById (params: any) {
 }
 export async function createUser (userData: CreateUserParams) {
   try {
-    connectToDatabase()
+    await connectToDatabase()
 
     const newUser = await User.create(userData)
     return newUser
@@ -35,7 +35,7 @@ export async function createUser (userData: CreateUserParams) {
 // Update User Server Action
 export async function updateUser (params: UpdateUserParams) {
   try {
-    connectToDatabase()
+    await connectToDatabase()
     const { clerkId, updateData, path } = params
 
     await User.findOneAndUpdate({ clerkId }, updateData, {
@@ -51,7 +51,7 @@ export async function updateUser (params: UpdateUserParams) {
 
 export async function deleteUser (params: DeleteUserParams) {
   try {
-    connectToDatabase()
+    await connectToDatabase()
     const { clerkId } = params
 
     const user = await User.findOneAndDelete({ clerkId })
@@ -79,7 +79,7 @@ export async function deleteUser (params: DeleteUserParams) {
 export async function getAllUsers (params: GetAllUsersParams) {
   // connect to database
   try {
-    connectToDatabase()
+    await connectToDatabase()
     const users = await User.find({}).sort({ createdAt: -1 })
     return { users }
   } catch (error) {
@@ -90,7 +90,7 @@ export async function getAllUsers (params: GetAllUsersParams) {
 
 export async function toggleSaveQuestion (params: ToggleSaveQuestionParams) {
   try {
-    connectToDatabase()
+    await connectToDatabase()
     const { userId, questionId, path } = params
 
     // 1. Get the user first
@@ -134,7 +134,7 @@ export async function getSavedQuestions (params: GetSavedQuestionsParams) {
   */
 
   try {
-    connectToDatabase()
+    await connectToDatabase()
     const { clerkId, page = 1, pageSize = 10, filter, searchQuery } = params
 
     const query: FilterQuery<typeof Question> = searchQuery
