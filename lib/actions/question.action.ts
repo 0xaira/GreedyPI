@@ -4,7 +4,7 @@
 import Question from '@/database/question.model'
 import { connectToDatabase } from '../mongoose'
 import Tag from '@/database/tag.model'
-import { CreateQuestionParams, DeleteQuestionParams, EditQuestionParams, GetQuestionByIdParams, GetQuestionsParams, QuestionVoteParams } from './shared.types'
+import { CreateQuestionParams, DeleteQuestionParams, GetQuestionByIdParams, GetQuestionsParams, QuestionVoteParams, EditQuestionParams } from './shared.types'
 import User from '@/database/user.model'
 import { revalidatePath } from 'next/cache'
 import Interaction from '@/database/interaction.model'
@@ -202,4 +202,18 @@ export async function editQuestion (params: EditQuestionParams) {
     await question.save()
     revalidatePath(path)
   } catch (error) {}
+}
+
+export async function getHotQuestions () {
+  try {
+    connectToDatabase()
+    // Get All questions sorted by upvotes and limit by 6
+
+    const hotQuestions = await Question.find({})
+      .sort({ views: -1, upvotes: -1 })
+      .limit(5)
+    return hotQuestions
+  } catch (error) {
+    console.log(error)
+  }
 }
