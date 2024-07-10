@@ -17,7 +17,6 @@ import Question from '@/database/question.model'
 import Tag from '@/database/tag.model'
 import { FilterQuery } from 'mongoose'
 import Answer from '@/database/answer.model'
-import { questions } from '@/constants'
 
 // Get User By Id Server Action
 export async function getUserById (params: any) {
@@ -281,6 +280,7 @@ export async function getUserQuestions (params: GetUserStatsParams) {
       .skip(skipAmount)
       .limit(pageSize)
       .sort({
+        createdAt: -1,
         views: -1,
         upvotes: -1
       })
