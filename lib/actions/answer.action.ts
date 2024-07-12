@@ -1,3 +1,4 @@
+/* eslint-disable brace-style */
 'use server'
 import { revalidatePath } from 'next/cache'
 import { connectToDatabase } from '../mongoose'
@@ -89,6 +90,7 @@ export async function getAnswers (params: GetAnswersParams) {
     return { answers, isNext }
   } catch (error) {
     console.log(error)
+    throw error
   }
 }
 //  Upvote Answer
@@ -137,6 +139,7 @@ export async function upvoteAnswer (params: AnswerVoteParams) {
     revalidatePath(path)
   } catch (error) {
     console.log(error)
+    throw error
   }
 }
 
@@ -187,7 +190,7 @@ export async function downvoteAnswer (params: AnswerVoteParams) {
 export async function getUserAnswers (params: GetUserStatsParams) {
   try {
     connectToDatabase()
-    const { userId, page = 1, pageSize = 2 } = params
+    const { userId, page = 1, pageSize = 10 } = params
 
     const skipAmount = (page - 1) * pageSize
 

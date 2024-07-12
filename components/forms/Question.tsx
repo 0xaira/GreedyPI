@@ -36,20 +36,21 @@ const Question = ({ mongoUserId, type, questionDetails }: Props) => {
   const path = usePathname()
   const { mode } = useTheme()
 
+  // const parsedQuestionDetails = JSON.parse(questionDetails || "");
   let parsedQuestionDetails: any
   let groupedTags
   if (questionDetails) {
     try {
       parsedQuestionDetails = JSON.parse(questionDetails)
-      groupedTags = parsedQuestionDetails.tags.map((tag) => tag.name)
+      groupedTags = parsedQuestionDetails.tags.map((tag: any) => tag.name)
     } catch (error) {
       console.error('Error parsing JSON:', error)
+      // Handle the error in an appropriate way.
     }
   } else {
-    parsedQuestionDetails = {}
+    // Handle the case where questionDetails is empty (e.g., provide a default value or handle the error in another way).
+    parsedQuestionDetails = {} // Empty object or any other default value
   }
-
-  console.log(parsedQuestionDetails)
 
   const form = useForm<z.infer<typeof QuestionsSchema>>({
     resolver: zodResolver(QuestionsSchema),
@@ -103,9 +104,6 @@ const Question = ({ mongoUserId, type, questionDetails }: Props) => {
     setIsSubmitting(true)
 
     try {
-      // make a async call to your api --> create a question
-      // contain all data
-      // navigate to home
       if (type === 'Edit') {
         await editQuestion({
           questionId: parsedQuestionDetails._id,
@@ -129,8 +127,6 @@ const Question = ({ mongoUserId, type, questionDetails }: Props) => {
     } finally {
       setIsSubmitting(false)
     }
-
-    console.log(values)
   }
   return (
     <Form {...form}>
@@ -173,7 +169,7 @@ const Question = ({ mongoUserId, type, questionDetails }: Props) => {
               </FormLabel>
               <FormControl className="mt-3.5">
                 <Editor
-                  apiKey={process.env.NEXT_PUBLIC_TINY_EDITOR_API_KEY}
+                  apiKey={process.env.NEXT_PUBLIC_TINY_MCE_API_KEY}
                   onInit={(evt, editor) => {
                     // @ts-ignore
                     editorRef.current = editor
