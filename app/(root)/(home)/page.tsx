@@ -13,6 +13,11 @@ import {
 import { SearchParamsProps } from '@/types'
 import Pagination from '@/components/shared/Pagination'
 import { auth } from '@clerk/nextjs'
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Home | GreedyPI",
+};
 
 export default async function Home ({ searchParams }: SearchParamsProps) {
   let result
