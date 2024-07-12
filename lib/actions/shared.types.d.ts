@@ -1,6 +1,6 @@
-import { Schema } from 'mongoose'
+import { Schema } from "mongoose";
 
-import { IUser } from '@/mongodb'
+import { IUser } from "@/database/user.model";
 
 export interface CreateAnswerParams {
   content: string;
@@ -19,8 +19,8 @@ export interface GetAnswersParams {
 export interface AnswerVoteParams {
   answerId: string;
   userId: string;
-  hasupVoted: boolean;
-  hasdownVoted: boolean;
+  hasAlreadyUpvoted: boolean;
+  hasAlreadyDownvoted: boolean;
   path: string;
 }
 
@@ -48,7 +48,7 @@ export interface ViewQuestionParams {
 
 export interface JobFilterParams {
   query: string;
-  page: string;
+  page?: number;
 }
 
 export interface GetQuestionsParams {
@@ -73,8 +73,8 @@ export interface GetQuestionByIdParams {
 export interface QuestionVoteParams {
   questionId: string;
   userId: string;
-  hasupVoted: boolean;
-  hasdownVoted: boolean;
+  hasAlreadyUpvoted: boolean;
+  hasAlreadyDownvoted: boolean;
   path: string;
 }
 

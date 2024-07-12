@@ -1,22 +1,24 @@
-'use client'
-import { useForm } from 'react-hook-form'
+"use client";
+
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
-  FormMessage
-} from '../ui/form'
-import { AnswerSchema } from '@/lib/validations'
-import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Editor } from '@tinymce/tinymce-react'
-import { useRef, useState } from 'react'
-import { useTheme } from '@/context/ThemeProvider'
-import { Button } from '../ui/button'
-import Image from 'next/image'
-import { createAnswer } from '@/lib/actions/answer.action'
-import { usePathname } from 'next/navigation'
+  FormMessage,
+} from "../ui/form";
+import { useForm } from "react-hook-form";
+import { AnswerSchema } from "@/lib/validations";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Editor } from "@tinymce/tinymce-react";
+import { useMemo, useRef, useState } from "react";
+import { useTheme } from "@/context/ThemeProvider";
+import { Button } from "../ui/button";
+import Image from "next/image";
+import { createAnswer } from "@/lib/actions/answer.action";
+import { usePathname } from "next/navigation";
+import { toast } from "../ui/use-toast";
 
 interface Props {
   question: string;
@@ -25,99 +27,119 @@ interface Props {
 }
 
 const Answer = ({ question, questionId, authorId }: Props) => {
-  console.log(question)
-  const pathname = usePathname()
-  const [isSubmittingAI, setIsSubmittingAI] = useState(false)
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const { mode } = useTheme()
-  const editorRef = useRef(null)
+  const pathname = usePathname();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmittingAI, setSetIsSubmittingAI] = useState(false);
+  const { mode } = useTheme();
+  const editorRef = useRef(null);
+
   const form = useForm<z.infer<typeof AnswerSchema>>({
     resolver: zodResolver(AnswerSchema),
     defaultValues: {
-      answer: ''
-    }
-  })
+      answer: "",
+    },
+  });
 
   const handleCreateAnswer = async (values: z.infer<typeof AnswerSchema>) => {
-    setIsSubmitting(true)
-
+    setIsSubmitting(true);
     try {
       await createAnswer({
         content: values.answer,
         author: JSON.parse(authorId),
         question: JSON.parse(questionId),
-        path: pathname
-      })
-
-      // Reset the form and editor to empty
-      form.reset()
+        path: pathname,
+      });
+      form.reset();
       if (editorRef.current) {
-        const editor = editorRef.current as any
-
-        editor.setContent('')
+        const editor = editorRef.current as any;
+        editor.setContent("");
       }
+      toast({
+        title: "Answer submitted successfully",
+        variant: "default",
+      });
     } catch (error) {
-      console.log(error)
+      console.error(error);
+      toast({
+        title: "Failed to submit answer",
+        variant: "destructive",
+      });
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   const generateAIAnswer = async () => {
-    if (!authorId) {
-      return
-    }
-    setIsSubmittingAI(true)
+    if (!authorId) return;
+    setSetIsSubmittingAI(true);
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/api/chatgpt`,
         {
-          method: 'POST',
-          body: JSON.stringify({ question })
+          method: "POST",
+          body: JSON.stringify({ question }),
         }
-      )
-
-      const aiAnswer = await response.json()
-      const formattedAnswer = aiAnswer.reply.replace(/\n/g, '<br/>')
-
+      );
+      const aiAnswer = await response.json();
+      // Convert plain text to HTML format
+      const formattedAnswer = aiAnswer.reply.replace(/\n/g, "<br />");
       if (editorRef.current) {
-        const editor = editorRef.current as any
-        editor.setContent(formattedAnswer)
+        const editor = editorRef.current as any;
+        editor.setContent(formattedAnswer);
       }
+      toast({
+        title: "Generated AI answer",
+        variant: "default",
+      });
     } catch (error) {
+      console.error(error);
+      toast({
+        title: "Failed to generate AI answer",
+        variant: "destructive",
+      });
     } finally {
-      setIsSubmittingAI(false)
+      setSetIsSubmittingAI(false);
     }
+  };
+
+  const isDarkMode = useMemo(() => mode === "dark", [mode]);
+
+  if (!authorId) {
+    return (
+      <h4 className="paragraph-semibold text-dark400_light800">
+        Please login to answer this question.
+      </h4>
+    );
   }
 
   return (
     <div>
-      <div className="mt-10 flex flex-col justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
+      <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
         <h4 className="paragraph-semibold text-dark400_light800">
-          Write your answers here
+          Write your answer here
         </h4>
+
         <Button
           className="btn light-border-2 gap-1.5 rounded-md px-4 py-2.5 text-primary-500 shadow-none dark:text-primary-500"
           onClick={generateAIAnswer}
         >
-          {isSubmittingAI
-            ? (
+          {isSubmittingAI ? (
             <>Generating...</>
-              )
-            : (
+          ) : (
             <>
               <Image
                 src="/assets/icons/stars.svg"
+                alt="star"
                 width={12}
                 height={12}
-                alt="star"
                 className="object-contain"
               />
-              Generate AI answer
+              Generate AI Answer
             </>
-              )}
+          )}
         </Button>
       </div>
+
       <Form {...form}>
         <form
           className="mt-6 flex w-full flex-col gap-10"
@@ -127,54 +149,44 @@ const Answer = ({ question, questionId, authorId }: Props) => {
             control={form.control}
             name="answer"
             render={({ field }) => (
-              <FormItem className=" flex w-full flex-col">
+              <FormItem className="flex w-full flex-col gap-3">
                 <FormControl className="mt-3.5">
                   <Editor
                     apiKey={process.env.NEXT_PUBLIC_TINY_EDITOR_API_KEY}
                     onInit={(evt, editor) => {
                       // @ts-ignore
-                      editorRef.current = editor
+                      editorRef.current = editor;
                     }}
                     onBlur={field.onBlur}
-                    onEditorChange={(content) => {
-                      field.onChange(content)
-                    }}
-                    initialValue=""
+                    onEditorChange={(content) => field.onChange(content)}
                     init={{
                       height: 350,
                       menubar: false,
                       plugins: [
-                        'advlist',
-                        'autolink',
-                        'lists',
-                        'link',
-                        'image',
-                        'charmap',
-                        'print',
-                        'preview',
-                        'anchor',
-                        'searchreplace',
-                        'visualblocks',
-                        'codesample',
-                        'code',
-                        'fullscreen',
-                        'insertdatetime',
-                        'media',
-                        'table',
-                        'paste',
-                        'code',
-                        'help',
-                        'wordcount'
+                        "advlist",
+                        "autolink",
+                        "lists",
+                        "link",
+                        "image",
+                        "charmap",
+                        "preview",
+                        "anchor",
+                        "searchreplace",
+                        "visualblocks",
+                        "codesample",
+                        "fullscreen",
+                        "insertdatetime",
+                        "media",
+                        "table",
                       ],
                       toolbar:
-                        'undo redo | ' +
-                        'codesample | bold italic backcolor | alignleft aligncenter ' +
-                        'alignright alignjustify | bullist numlist | ' +
-                        'removeformat | help',
+                        "undo redo | " +
+                        "codesample | bold italic forecolor | alignleft aligncenter |" +
+                        "alignright alignjustify | bullist numlist",
                       content_style:
-                        'body { font-family:Inter; font-size:16px }',
-                      skin: mode === 'dark' ? 'oxide-dark' : 'oxide',
-                      content_css: mode === 'dark' ? 'dark' : 'light'
+                        "body { font-family:Inter; font-size:16px }",
+                      skin: isDarkMode ? "oxide-dark" : "oxide",
+                      content_css: isDarkMode ? "dark" : "light",
                     }}
                   />
                 </FormControl>
@@ -189,13 +201,13 @@ const Answer = ({ question, questionId, authorId }: Props) => {
               className="primary-gradient w-fit text-white"
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Submitting' : 'Submit'}
+              {isSubmitting ? "Submitting..." : "Submit"}
             </Button>
           </div>
         </form>
       </Form>
     </div>
-  )
-}
+  );
+};
 
-export default Answer
+export default Answer;

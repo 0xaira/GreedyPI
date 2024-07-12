@@ -20,6 +20,7 @@ interface Props {
     clerkId: string;
   };
   upvotes: string[];
+  downvotes: string[];
   answers: Array<object>;
   views: number;
   createdAt: Date;
@@ -32,6 +33,7 @@ const QuestionCard = ({
   tags,
   author,
   upvotes,
+  downvotes,
   answers,
   views,
   createdAt,
@@ -82,6 +84,13 @@ const QuestionCard = ({
             imgUrl="/assets/icons/like.svg"
             alt="Upvotes"
             value={formatAndDivideNumber(upvotes.length)}
+            title=" Votes"
+            textStyles="small-medium text-dark400_light800"
+          />
+          <Metric
+            imgUrl="/assets/icons/downvote.svg"
+            alt="Downvotes"
+            value={formatAndDivideNumber(downvotes.length)}
             title=" Votes"
             textStyles="small-medium text-dark400_light800"
           />

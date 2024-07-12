@@ -1,5 +1,5 @@
-/* eslint-disable tailwindcss/classnames-order */
 /* eslint-disable tailwindcss/no-custom-classname */
+/* eslint-disable tailwindcss/classnames-order */
 import * as React from "react";
 import * as ToastPrimitives from "@radix-ui/react-toast";
 import { cva, type VariantProps } from "class-variance-authority";
@@ -29,9 +29,9 @@ const toastVariants = cva(
   {
     variants: {
       variant: {
-        default: "border bg-white text-foreground",
+        default: "border bg-background text-foreground",
         destructive:
-          "destructive group border-destructive bg-red-500 text-white",
+          "destructive group border-destructive bg-destructive text-destructive-foreground",
       },
     },
     defaultVariants: {
@@ -81,8 +81,7 @@ const ToastClose = React.forwardRef<
       className
     )}
     toast-close=""
-    {...props}
-  >
+    {...props}>
     <X className="size-4" />
   </ToastPrimitives.Close>
 ));
