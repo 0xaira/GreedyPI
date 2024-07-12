@@ -1,9 +1,11 @@
-import React from 'react'
+import { ReactNode } from "react";
 
-const Layout = ({ children } : {children: React.ReactNode}) => {
+const Layout = ({ children }: { children: ReactNode }) => {
   return (
-    <div>{children}</div>
-  )
-}
+    <main className="flex min-h-screen w-full items-center justify-center">
+      {children}
+    </main>
+  );
+};
 
-export default Layout
+export default Layout;
