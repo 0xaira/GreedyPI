@@ -14,9 +14,9 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Tags | GreedyPI",
+  title: "Tags | GreedyQ",
   description:
-    "View the tags used on GreedyPI - A community-driven platform for asking and answering programming questions. Get help, share knowledge and collaborate with developers from around the world. Explore topics in web developments, mobile app development, algorithms, data structures and more...",
+    "View the tags used on GreedyQ - A community-driven platform for asking and answering programming questions. Get help, share knowledge and collaborate with developers from around the world. Explore topics in web developments, mobile app development, algorithms, data structures and more...",
 };
 
 const Page = async ({ searchParams }: SearchParamsProps) => {

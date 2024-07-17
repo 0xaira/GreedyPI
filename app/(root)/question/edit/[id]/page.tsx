@@ -6,9 +6,9 @@ import { auth } from "@clerk/nextjs";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Edit Question | GreedyPI",
+  title: "Edit Question | GreedyQ",
   description:
-    "Edit the question details on GreedyPI - A community-driven platform for asking and answering programming questions. Get help, share knowledge and collaborate with developers from around the world. Explore topics in web developments, mobile app development, algorithms, data structures and more...",
+    "Edit the question details on GreedyQ - A community-driven platform for asking and answering programming questions. Get help, share knowledge and collaborate with developers from around the world. Explore topics in web developments, mobile app development, algorithms, data structures and more...",
 };
 
 const Page = async ({ params }: ParamsProps) => {

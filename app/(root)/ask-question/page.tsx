@@ -6,9 +6,9 @@ import { redirect } from "next/navigation";
 import React from "react";
 
 export const metadata: Metadata = {
-  title: "Ask Question | GreedyPI",
+  title: "Ask Question | GreedyQ",
   description:
-    "Ask a question on GreedyPI - A community-driven platform for asking and answering programming questions. Get help, share knowledge and collaborate with developers from around the world. Explore topics in web developments, mobile app development, algorithms, data structures and more...",
+    "Ask a question on GreedyQ - A community-driven platform for asking and answering programming questions. Get help, share knowledge and collaborate with developers from around the world. Explore topics in web developments, mobile app development, algorithms, data structures and more...",
 };
 
 const Page = async () => {

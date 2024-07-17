@@ -71,7 +71,7 @@ const MobileNav = () => {
             alt="DevFlow"
           />
           <p className="h2-bold text-dark100_light900 font-spaceGrotesk">
-            Greedy<span className="text-primary-500">PI</span>
+            Greedy<span className="text-primary-500">Q</span>
           </p>
         </Link>
         <div className="flex flex-col">

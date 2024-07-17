@@ -20,8 +20,8 @@ export async function generateMetadata({
 }: URLProps): Promise<Metadata> {
   const userInfo = await getUserInfo({ userId: params.id });
   return {
-    title: `${userInfo.user.name} Profile | Dev GreedyPI`,
-    description: `View ${userInfo.user.name}'s profile on Dev GreedyPI - A community-driven platform for asking and answering programming questions. Get help, share knowledge and collaborate with developers from around the world. Explore topics in web developments, mobile app development, algorithms, data structures and more...`,
+    title: `${userInfo.user.name} Profile | Dev GreedyQ`,
+    description: `View ${userInfo.user.name}'s profile on Dev GreedyQ - A community-driven platform for asking and answering programming questions. Get help, share knowledge and collaborate with developers from around the world. Explore topics in web developments, mobile app development, algorithms, data structures and more...`,
   };
 }
 

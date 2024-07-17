@@ -11,8 +11,8 @@ export async function generateMetadata({
   const { userId } = auth();
   const mongoUser = await getUserById({ userId });
   return {
-    title: `Edit ${mongoUser.name} Profile | GreedyPI`,
-    description: `Edit ${mongoUser.name}'s profile on GreedyPI - A community-driven platform for asking and answering programming questions. Get help, share knowledge and collaborate with developers from around the world. Explore topics in web developments, mobile app development, algorithms, data structures and more...`,
+    title: `Edit ${mongoUser.name} Profile | GreedyQ`,
+    description: `Edit ${mongoUser.name}'s profile on GreedyQ - A community-driven platform for asking and answering programming questions. Get help, share knowledge and collaborate with developers from around the world. Explore topics in web developments, mobile app development, algorithms, data structures and more...`,
   };
 }
 

@@ -14,9 +14,9 @@ import Link from "next/link";
 import React from "react";
 
 export const metadata: Metadata = {
-  title: "Question | GreedyPI",
+  title: "Question | GreedyQ",
   description:
-    "View the question details and corresponding answers on GreedyPI - A community-driven platform for asking and answering programming questions. Get help, share knowledge and collaborate with developers from around the world. Explore topics in web developments, mobile app development, algorithms, data structures and more...",
+    "View the question details and corresponding answers on GreedyQ - A community-driven platform for asking and answering programming questions. Get help, share knowledge and collaborate with developers from around the world. Explore topics in web developments, mobile app development, algorithms, data structures and more...",
 };
 
 const Page = async ({ params, searchParams }: any) => {
