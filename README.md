@@ -8,7 +8,12 @@
 
 ## 🌐 Live Demo
 
-Explore the live demonstration of the project: [greedyq-live](https://greedy-q.vercel.app/)
+Explore the live demonstration of the project: [Greedy Queue Live](https://greedy-q.vercel.app/)
+
+- **PowerPoint Presentation**: [Download the PPT](https://docs.google.com/presentation/d/1E5kpz0m9aSGNhQqBlAOKt7sgr9PiwPj3/edit?usp=sharing&ouid=101483937872788625785&rtpof=true&sd=true)
+- **Technical Documentation**: [View Technical Documentation](https://drive.google.com/file/d/1ZkcQoMSfeSSk-r6HPUlAa5ZWz9oAvPFC/view?usp=sharing)
+- **YouTube Demo**: [Watch the Demo Video](https://youtu.be/v1DRYq5VFeY)
+
 
 ## 📑Table of Contents
 
